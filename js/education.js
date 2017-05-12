@@ -1,28 +1,29 @@
 // set the dimensions of the canvas
-var margin = {top: 20, right: 20, bottom: 500, left: 200},
+let margin = {top: 20, right: 20, bottom: 500, left: 200},
 width = 1500 - margin.left - margin.right,
 height = 1000 - margin.top - margin.bottom;
 
 
 // set the ranges
-var x = d3.scale.ordinal().rangeRoundBands([0, width], .20);
+let x = d3.scale.ordinal().rangeRoundBands([0, width], .20);
 
-var y = d3.scale.linear().rangeRound([height, 0]);
+let y = d3.scale.linear().rangeRound([height, 0]);
 
 // define the axis
-var xAxis = d3.svg.axis()
+let xAxis = d3.svg.axis()
 .scale(x)
 .orient("bottom")
 
 
-var yAxis = d3.svg.axis()
+let yAxis = d3.svg.axis()
 .scale(y)
 .orient("left")
 .ticks(10);
 
 
 // add the SVG element
-var svg = d3.select("body").append("svg")
+let svg = d3.select("body").append("svg")
+
 .attr("width", width + margin.left + margin.right)
 .attr("height", height + margin.top + margin.bottom)
 .append("g")
@@ -53,6 +54,7 @@ svg.append("g")
 .attr("dy", "-.55em")
 .attr("transform", "rotate(-90)" );
 
+
 svg.append("g")
 .attr("class", "y axis")
 .call(yAxis)
@@ -62,8 +64,6 @@ svg.append("g")
 .attr("dy", ".71em")
 .style("text-anchor", "end")
 .text("Literacy");
-
-
 // Add bar chart
 svg.selectAll("bar")
 .data(data)
@@ -75,5 +75,6 @@ svg.selectAll("bar")
 .attr("width", x.rangeBand())
 .attr("y", function(d) { return y(d.Total_population); })
 .attr("height", function(d) { return height - y(d.Total_population); });
+
 
 });

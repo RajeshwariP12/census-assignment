@@ -1,23 +1,23 @@
-var margin={top:70, bottom:165, left:150, right:50},
+let margin={top:70, bottom:165, left:150, right:50},
    width = 1560 - margin.left - margin.right,
    height = 600 - margin.top - margin.bottom;
 //Scale for x and y axis
-var x = d3.scale.ordinal()
+let x = d3.scale.ordinal()
    .rangeRoundBands([0, width], .1);
-var y = d3.scale.linear()
+let y = d3.scale.linear()
    .rangeRound([height, 0]);
 //Colour scale
-var color = d3.scale.category10();
-var xAxis = d3.svg.axis()
+let color = d3.scale.category10();
+let xAxis = d3.svg.axis()
    .scale(x)
    .orient("bottom");
-var yAxis = d3.svg.axis()
+let yAxis = d3.svg.axis()
    .scale(y)
    .orient("left");
 
 
 //Appending svg to body
-var svg = d3.select("body").append("svg")
+let svg = d3.select("body").append("svg")
    .attr("width", width + margin.left + margin.right)
    .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -27,7 +27,7 @@ var svg = d3.select("body").append("svg")
  d3.json("../output/graduatevalue.json",  function( data) {
  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "AreaName"; }));
  data.forEach(function(d) {
-   var y0 = 0;
+   let y0 = 0;
    d.Population = color.domain().map(function(name) { return {name: name, y0: y0, y1: y0 += +d[name]}; });
    d.total = d.Population[d.Population.length - 1].y1;
  });
@@ -57,7 +57,7 @@ var svg = d3.select("body").append("svg")
      .attr("dy", "1em")
      .style("text-anchor", "end")
      .text("Population");
- var state = svg.selectAll(".AreaName")
+ let state = svg.selectAll(".AreaName")
      .data(data)
    .enter().append("g")
      .attr("class", "g")
@@ -65,8 +65,7 @@ var svg = d3.select("body").append("svg")
  state.selectAll("rect")
      .data(function(d) { return d.Population; })
    .enter().append("rect")
-//    .transition().duration(800)
-// .delay(function(d,i) { return i * 100;})
+
      .attr("width", x.rangeBand())
      .attr("y", function(d) { return y(d.y1); })
      .attr("height", function(d) { return y(d.y0) - y(d.y1); })
@@ -74,14 +73,14 @@ var svg = d3.select("body").append("svg")
      .on("mouseover", function() { tooltip.style("display", null); })
     .on("mouseout", function() { tooltip.style("display", "none"); })
     .on("mousemove", function(d) {
-    var xPosition = d3.mouse(this)[0] - 15;
-    var yPosition = d3.mouse(this)[1] - 25;
+    let xPosition = d3.mouse(this)[0] - 15;
+    let yPosition = d3.mouse(this)[1] - 25;
     tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
     tooltip.select("text").text(d.y1);
   });
 
 //Legend Dimensions
- var legend = svg.selectAll(".legend")
+ let legend = svg.selectAll(".legend")
      .data(color.domain().slice().reverse())
    .enter().append("g")
      .attr("class", "legend")
@@ -100,7 +99,7 @@ var svg = d3.select("body").append("svg")
          .style("font-size","20px")
           .text(function(d) { return d; });
 //ToolTip
-var tooltip = svg.append("g")
+let tooltip = svg.append("g")
   .attr("class", "tooltip")
   .style("display", "none");
 
